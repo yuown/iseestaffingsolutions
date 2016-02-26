@@ -10,5 +10,8 @@ iseeApp.run(['$rootScope', '$location', '$cookieStore', '$http', function($rootS
 		if ($location.path() !== '/login' && !$rootScope.globals.currentUser) {
 			$location.path('/login');
 		}
+		if ($location.path() == '/login' && $rootScope.globals.currentUser) {
+            $location.path('/home');
+        }
 	});
 } ]);

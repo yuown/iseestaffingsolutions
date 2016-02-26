@@ -15,7 +15,7 @@
 				<tbody>
 					<tr ng-repeat="groupUser in groupUsers" class="table-row">
 						<td>{{groupUser.username}}</td>
-						<td access="ROLE_REFERENCE_ENTRY">
+						<td access="ROLE_USER_MANAGER">
 							<button type='button' class='btn btn-danger' ng-click="removeUserFromGroup(group.name, groupUser.username)" access="ROLE_USER_MANAGER">Remove</button>
 						</td>
 					</tr>

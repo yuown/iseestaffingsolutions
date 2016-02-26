@@ -1,55 +1,28 @@
-<div ng-controller='HomeController'>
-    <nav class="navbar navbar-default"><!--  navbar-fixed-top  -->
-		<div ng-controller="MenuController" class="container">
-	       <div class="navbar-header">
-	         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar" aria-expanded="true" aria-controls="navbar">
-	           <span class="sr-only">Toggle navigation</span>
-	           <span class="icon-bar"></span>
-	           <span class="icon-bar"></span>
-	           <span class="icon-bar"></span>
-	         </button>
-	         <a class="navbar-brand" href="#/home">ISEE</a>
-	       </div>
-	       <div id="navbar" class="navbar-collapse collapse in" aria-expanded="true">
-	          <ul class="nav navbar-nav">
-	          	<li ng-class="{active: isSegment('stockOut')}" access="ROLE_VIEW_ITEMS,ROLE_LENDER,ROLE_SELLER,ROLE_ITEM_RETURNER"><a href="#/home/stockOut">Stock Out</a></li>
-	            <li ng-class="{active: isSegment('stockIn')}" access="ROLE_VIEW_ITEMS,ROLE_DATAENTRY"><a href="#/home/stockIn">Stock In</a></li>
-	            <li ng-class="{active: isSegment('validate')}" access="ROLE_VIEW_ITEMS,ROLE_VALIDATE"><a href="#/home/validate">Validate</a></li>
-	            <li ng-class="{active: isSegment('estimate')}" access="ROLE_VIEW_ITEMS,ROLE_ESTIMATE"><a href="#/home/estimate">Estimate</a></li>
-	            <li class="dropdown" ng-class="{active: isSegment('suppliers') || isSegment('categories') || isSegment('stockTypes') || isSegment('locations')}" access="ROLE_REFERENCE_ENTRY,ROLE_DATAENTRY">
-	               <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Data <span class="caret"></span></a>
-	               <ul class="dropdown-menu">
-                    <li ng-class="{active: isSegment('suppliers')}"><a href="#/home/suppliers">Suppliers</a></li>
-                    <li ng-class="{active: isSegment('categories')}"><a href="#/home/categories">Categories</a></li>
-                    <li ng-class="{active: isSegment('stockTypes')}"><a href="#/home/stockTypes">Stock Types</a></li>
-                    <li ng-class="{active: isSegment('locations')}"><a href="#/home/locations">Locations</a></li>
-                  </ul>
-                </li>
-	            <li ng-class="{active: isSegment('unifiedReport') || isSegment('balanceSheet') || isSegment('supplierStats') || isSegment('stockOutOrLentItems')}" access="ROLE_REPORTS"><a href="#/home/reports/unifiedReport">Reports</a></li>
-	            <li ng-class="{active: isSegment('notification')}" access="ROLE_REPORTS"><a href="#/home/notification">Notifier</a></li>
-	            <li ng-class="{active: isSegment('settings')}" access="ROLE_SETTINGS"><a href="#/home/settings">Settings</a></li>
-	            <li class="dropdown" ng-class="{active: isSegment('users') || isSegment('groups')}" access="ROLE_USER_MANAGER">
-	              <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Security <span class="caret"></span></a>
-	              <ul class="dropdown-menu">
-	                <li ng-class="{active: isSegment('users')}"><a href="#/home/users">Users</a></li>
-	                <li ng-class="{active: isSegment('groups')}"><a href="#/home/groups">Groups</a></li>
-	              </ul>
-	            </li>
-	            <li ng-class="{active: isSegment('aboutMe')}"><a href="#/home/aboutMe">About</a></li>
-	          </ul>
-	          <ul class="nav navbar-nav navbar-right">
-	            <li class="dropdown" ng-class="{active: isSegment('changePwd')}">
-                  <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{globals.currentUser.fullName}} <span class="caret"></span></a>
-                  <ul class="dropdown-menu">
-                    <li ng-class="{active: isSegment('changePwd')}"><a href="#/home/changeProfile">Change Profile</a></li>
-                    <li><a href="#" ng-click="logout()">Logout</a></li>
-                  </ul>
-                </li>
-	          </ul>
-	       </div>
-	    </div>
-    </nav>
-	<div class="container">
-	   <div id="main-contents" app-view-segment="1"></div>
+<div ng-controller='HomeController' class="container">
+	<div class="row">
+		<!-- Sidebar -->
+		<div id="sidebar" class="3u">
+			<section>
+				<header class="major">
+					<h2>Menu</h2>
+				</header>
+				<nav>
+					<ul class="nav">
+						<li><a href="#">Link 1</a></li>
+						<li><a href="#" id="btn-1" data-toggle="collapse" data-target="#secMenu1" aria-expanded="false" ng-class="{active: isSegment('users') || isSegment('groups')}" access="ROLE_USER_MANAGER">Security</a>
+							<ul class="nav collapse" id="secMenu1" role="menu" aria-labelledby="btn-1">
+								<li ng-class="{active: isSegment('users')}"><a href="#/home/users">Users</a></li>
+								<li ng-class="{active: isSegment('groups')}"><a href="#/home/groups">Groups</a></li>
+							</ul>
+					    </li>
+						<li><a href="#">Link 3</a></li>
+						<li><a href="#">Link 4</a></li>
+					</ul>
+				</nav>
+			</section>
+		</div>
+		<!-- Content -->
+		<div id="content" class="9u skel-cell-important" app-view-segment="1">
+		</div>
 	</div>
 </div>
