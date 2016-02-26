@@ -13,7 +13,7 @@
             http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
 	<context:annotation-config />
-	<context:component-scan base-package="isee" use-default-filters="true" />
+	<context:component-scan base-package="yuown.isee" use-default-filters="true" />
 	<context:property-placeholder location="classpath:/isee.properties" />
 
     <mvc:annotation-driven />
@@ -25,7 +25,7 @@
 		<property name="driverClassName" value="${isee.db.driverClass}" />
 	</bean>
 	<bean id="jpaVendorAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
-		<property name="showSql" value="true" />
+		<property name="showSql" value="false" />
 		<property name="generateDdl" value="true" />
 		<property name="database" value="MYSQL" />
 	</bean>
@@ -36,8 +36,8 @@
 		<!-- spring based scanning for entity classes -->
 		<property name="packagesToScan">
 			<list>
-				<value>isee.entity</value>
-				<value>isee.model</value>
+				<value>yuown.isee.entity</value>
+				<value>yuown.isee.model</value>
 			</list>
 		</property>
 	</bean>
@@ -45,5 +45,5 @@
 		<property name="entityManagerFactory" ref="entityManagerFactory" />
 	</bean>
 	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true" />
-	<jpa:repositories base-package="clinics.jpa.repository" entity-manager-factory-ref="entityManagerFactory" />
+	<jpa:repositories base-package="yuown.isee.jpa.repository" entity-manager-factory-ref="entityManagerFactory" />
 </beans>

@@ -1,0 +1,1 @@
+var iseeApp = angular.module("iseeApp", [ 'ngRoute', 'route-segment', 'view-segment', 'ngCookies', 'ui.bootstrap' ]);

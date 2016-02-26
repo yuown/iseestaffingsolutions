@@ -1,0 +1,35 @@
+<div ng-controller='LoginController' class='well'>
+		<div class='container'>
+			<form class="form-horizontal" ng-submit="login(user)">
+				<div class='row'>
+					<div class="panel panel-info">
+						<div class="panel-heading">Login to ISEE Staffing Solutions</div>
+						<div class="panel-body">
+							<div class="alert alert-danger" ng-show="errorMessage">
+							{{errorMessage}}
+							</div>
+							<div class="col-md-6 col-md-offset-3">
+								<div class="form-group">
+									<div class="input-group input-group-lg">
+										<div class="input-group-addon">Username</div>
+										<input type="text" class="form-control" id="userId" placeholder="Enter User ID" ng-model="user.username" title="Enter valid Username" required />
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="input-group input-group-lg">
+										<div class="input-group-addon">Password</div>
+										<input type="password" class="form-control" id="password" placeholder="Enter Password" ng-model="user.password" title="Enter valid Password" maxlength="16" required="required" />
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="input-group pull-right">
+										<button type="submit" class="form-control input-lg btn btn-info">Login</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+</div>
