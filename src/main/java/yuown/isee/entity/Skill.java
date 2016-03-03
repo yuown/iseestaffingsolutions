@@ -21,8 +21,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 @AttributeOverrides(value = {
 		@AttributeOverride(name = "id", column = @Column(name = "ID", insertable = false, updatable = false)),
 		@AttributeOverride(name = "title", column = @Column(name = "title")),
-		@AttributeOverride(name = "comments", column = @Column(name = "comments")),
-		@AttributeOverride(name = "profileId", column = @Column(name = "profile_id"))
+		@AttributeOverride(name = "comments", column = @Column(name = "comments"))
 })
 public class Skill extends BaseEntity<Integer> implements Serializable {
 
@@ -32,7 +31,7 @@ public class Skill extends BaseEntity<Integer> implements Serializable {
 
 	private String comments;
 
-	private Integer profileId;
+	private Profile profile;
 
 	@Override
 	@Id
@@ -84,11 +83,11 @@ public class Skill extends BaseEntity<Integer> implements Serializable {
 		this.comments = comments;
 	}
 
-	public Integer getProfileId() {
-		return profileId;
+	public Profile getProfile() {
+		return profile;
 	}
-
-	public void setProfileId(Integer profileId) {
-		this.profileId = profileId;
+	
+	public void setProfile(Profile profile) {
+		this.profile = profile;
 	}
 }
