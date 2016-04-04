@@ -6,37 +6,35 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import yuown.isee.entity.Education;
-import yuown.isee.jpa.services.EducationRepositoryService;
-import yuown.isee.model.EducationModel;
-import yuown.isee.transformer.EducationTransformer;
+import yuown.isee.entity.Employee;
+import yuown.isee.jpa.repository.EducationRepository;
+import yuown.isee.jpa.repository.EmployeeRepository;
 
 @Service
-public class EducationService extends AbstractServiceImpl<Integer, EducationModel, Education, EducationRepositoryService, EducationTransformer> {
+public class EducationService extends AbstractServiceImpl<Integer, Education, EducationRepository> {
 
 	@Autowired
-	private EducationRepositoryService educationRepositoryService;
+	private EducationRepository educationRepository;
 
 	@Autowired
-	private EducationTransformer educationTransformer;
+	private EmployeeRepository employeeRepository;
 
 	@Override
-	protected EducationRepositoryService repoService() {
-		return educationRepositoryService;
+	public EducationRepository repository() {
+		return educationRepository;
 	}
 
-	@Override
-	protected EducationTransformer transformer() {
-		return educationTransformer;
+	public List<Education> getEducations(Integer profileId) {
+		return repository().findAllByProfileId(profileId);
 	}
 
-	public List<EducationModel> getEducations(Integer profileId) {
-		return transformer().transformTo(repoService().findAllByProfileId(profileId));
-	}
-
-	public void saveEducations(int profileId, List<EducationModel> educations) {
-		for (EducationModel educationModel : educations) {
-			educationModel.setProfileId(profileId);
+	public void saveEducations(int profileId, List<Education> educations) {
+		Employee employee = employeeRepository.findById(profileId);
+		if (null != employee) {
+			for (Education education : educations) {
+				education.setEmployee(employee);
+			}
+			repository().save(educations);
 		}
-		repoService().save(transformer().transformFrom(educations));
 	}
 }

@@ -12,13 +12,12 @@ import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.stereotype.Service;
 
 import yuown.isee.entity.User;
-import yuown.isee.jpa.services.UserRepositoryService;
 import yuown.isee.model.UserModel;
 import yuown.isee.security.YuownGrantedAuthority;
 import yuown.isee.transformer.UserTransformer;
 
 @Service
-public class UserService extends AbstractServiceImpl<Integer, UserModel, User, UserRepositoryService, UserTransformer> {
+public class UserService {
 
 	@Value("#{'${SUPER_USERS}'.split(',')}")
 	private List<String> SUPER_USERS;
@@ -38,12 +37,10 @@ public class UserService extends AbstractServiceImpl<Integer, UserModel, User, U
 	@Autowired
 	private JdbcUserDetailsManager jdbcUserDetailsManager;
 
-	@Override
 	protected UserRepositoryService repoService() {
 		return userRepositoryService;
 	}
 
-	@Override
 	protected UserTransformer transformer() {
 		return userTransformer;
 	}
@@ -54,7 +51,7 @@ public class UserService extends AbstractServiceImpl<Integer, UserModel, User, U
 		User dbUser = userRepositoryService.findByUsername(name);
 		user.setId(dbUser.getId());
 		user.setFullName(dbUser.getFullName());
-		if(SUPER_USERS.contains(name)) {
+		if (SUPER_USERS.contains(name)) {
 			user.setAuthorities(transformer().transformAdminAuthorities(ALL_ROLES));
 		}
 		return user;
@@ -75,16 +72,16 @@ public class UserService extends AbstractServiceImpl<Integer, UserModel, User, U
 		}
 	}
 
-	@Override
 	public List<UserModel> getAll() {
-		List<UserModel> allUsers = super.getAll();
-		for (Iterator<UserModel> iterator = allUsers.iterator(); iterator.hasNext();) {
-			UserModel userModel = iterator.next();
-			if (SUPER_USERS.contains(userModel.getUsername())) {
-				iterator.remove();
+		List<User> allUsers = repoService().findAll();
+		List<UserModel> all = new ArrayList<UserModel>();
+		for (Iterator<User> iterator = allUsers.iterator(); iterator.hasNext();) {
+			UserModel userModel = transformer().transformTo(iterator.next());
+			if (!SUPER_USERS.contains(userModel.getUsername())) {
+				all.add(userModel);
 			}
 		}
-		return allUsers;
+		return all;
 	}
 
 	public void enable(UserModel user) {
@@ -111,7 +108,7 @@ public class UserService extends AbstractServiceImpl<Integer, UserModel, User, U
 		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 		List<String> allGroups = jdbcUserDetailsManager.findAllGroups();
 		groupName = groupName.toUpperCase();
-		if(!allGroups.contains(groupName)) {
+		if (!allGroups.contains(groupName)) {
 			jdbcUserDetailsManager.createGroup(groupName, authorities);
 		}
 	}

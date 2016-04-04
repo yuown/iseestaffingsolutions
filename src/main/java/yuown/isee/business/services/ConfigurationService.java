@@ -1,54 +1,141 @@
 package yuown.isee.business.services;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import yuown.isee.entity.Configuration;
-import yuown.isee.jpa.services.ConfigurationRepositoryService;
-import yuown.isee.model.ConfigurationModel;
-import yuown.isee.transformer.ConfigurationTransformer;
-import yuown.isee.utils.Constants;
+import yuown.isee.jpa.repository.ConfigurationRepository;
 
 @Service
 @Scope(BeanDefinition.SCOPE_SINGLETON)
-public class ConfigurationService extends AbstractServiceImpl<Integer, ConfigurationModel, Configuration, ConfigurationRepositoryService, ConfigurationTransformer> {
+public class ConfigurationService extends AbstractServiceImpl<Integer, Configuration, ConfigurationRepository> {
 
 	@Autowired
-	private ConfigurationRepositoryService configurationRepositoryService;
+	private ConfigurationRepository configurationRepository;
 
-	@Autowired
-	private ConfigurationTransformer configurationTransformer;
+	@Value("${page.size}")
+	private Integer pageSize;
 
-	@Override
-	protected ConfigurationRepositoryService repoService() {
-		return configurationRepositoryService;
-	}
+	@Value("${mail.secured}")
+	private Boolean isSecured;
 
-	@Override
-	protected ConfigurationTransformer transformer() {
-		return configurationTransformer;
-	}
+	@Value("${mail.smtp.host}")
+	private String mailHost;
 
-	public ConfigurationModel getByName(String name) {
-		return transformer().transformTo(repoService().findByName(name));
+	@Value("${mail.auth.required}")
+	private Boolean mailAuthRequired;
+
+	@Value("${mail.user.name}")
+	private String mailUsername;
+
+	@Value("${mail.user.pass}")
+	private String mailPassword;
+
+	@Value("${mail.message.from.default}")
+	private String messageFromDefault;
+
+	@Value("${mail.smtp.starttls.enable}")
+	private Boolean enableTls;
+
+	@Value("${mail.smtp.port}")
+	private Integer smtpPort;
+
+	@Value("${mail.reply.to}")
+	private String mailReplyTo;
+
+	@Value("${mail.debug}")
+	private Boolean enableDebug;
+
+	@Value("${proxy.enabled}")
+	private Boolean isProxyEnabled;
+
+	@Value("${proxy.host}")
+	private String proxyHost;
+
+	@Value("${proxy.port}")
+	private String proxyPort;
+
+	public Configuration getByName(String name) {
+		return repository().findByName(name);
 	}
 
 	@PostConstruct
 	public void init() {
+		addConfigItemIfNotFound("page.size");
+		// addConfigItemIfNotFound("mail.secured");
+		// addConfigItemIfNotFound("mail.smtp.host");
+		// addConfigItemIfNotFound("mail.auth.required");
+		// addConfigItemIfNotFound("mail.user.name");
+		// addConfigItemIfNotFound("mail.user.pass");
+		// addConfigItemIfNotFound("mail.message.from.default");
+		// addConfigItemIfNotFound("mail.smtp.starttls.enable");
+		// addConfigItemIfNotFound("mail.smtp.port");
+		// addConfigItemIfNotFound("mail.reply.to");
+		// addConfigItemIfNotFound("mail.debug");
+		// addConfigItemIfNotFound("proxy.enabled");
+		// addConfigItemIfNotFound("proxy.host");
+		// addConfigItemIfNotFound("proxy.port");
+
 		cacheConfigItems();
 	}
 
+	private void addConfigItemIfNotFound(String configName) {
+		Configuration item = getByName(configName);
+		if (null == item) {
+			item = new Configuration();
+			item.setName(configName);
+			item.setDeletable(false);
+			item.setAutoLoad(true);
+			if (configName.equals("page.size")) {
+				item.setValue(pageSize);
+			} else if (configName.equals("mail.smtp.host")) {
+				item.setStrValue(mailHost);
+			} else if (configName.equals("mail.auth.required")) {
+				item.setBoolValue(mailAuthRequired);
+			} else if (configName.equals("mail.user.name")) {
+				item.setStrValue(mailUsername);
+			} else if (configName.equals("mail.user.pass")) {
+				item.setStrValue(mailPassword);
+			} else if (configName.equals("mail.message.from.default")) {
+				item.setStrValue(messageFromDefault);
+			} else if (configName.equals("mail.smtp.starttls.enable")) {
+				item.setBoolValue(enableTls);
+			} else if (configName.equals("mail.smtp.port")) {
+				item.setValue(smtpPort);
+			} else if (configName.equals("mail.reply.to")) {
+				item.setStrValue(mailReplyTo);
+			} else if (configName.equals("mail.secured")) {
+				item.setBoolValue(isSecured);
+			} else if (configName.equals("mail.debug")) {
+				item.setBoolValue(enableDebug);
+			} else if (configName.equals("proxy.enabled")) {
+				item.setBoolValue(isProxyEnabled);
+			} else if (configName.equals("proxy.host")) {
+				item.setStrValue(proxyHost);
+			} else if (configName.equals("proxy.port")) {
+				item.setStrValue(proxyPort);
+			}
+			repository().save(item);
+		}
+	}
+
 	@Override
-	public ConfigurationModel save(ConfigurationModel resource) {
-		ConfigurationModel saved = super.save(resource);
-		if (saved.getAutoLoad()) {
+	public Configuration save(Configuration resource, HashMap<String, Object> customParams) throws Exception {
+		Configuration newC = getByName(resource.getName());
+		if (newC != null && resource.getId() == null) {
+			throw new Exception("Configuration Item with name '" + resource.getName() + "' already exists");
+		}
+		Configuration saved = super.save(resource, customParams);
+		if (null != saved.getAutoLoad() && saved.getAutoLoad()) {
 			cacheConfigItem(saved.getName(), saved);
 		} else {
 			clearFromCache(saved);
@@ -56,21 +143,28 @@ public class ConfigurationService extends AbstractServiceImpl<Integer, Configura
 		return saved;
 	}
 
-	public void cacheConfigItem(String name, ConfigurationModel valueModel) {
+	public void cacheConfigItem(String name, Configuration valueModel) {
 		int value = 0;
 		if (valueModel != null) {
-			value = valueModel.getValue();
-			System.setProperty(name, Integer.toString(value));
+			try {
+				value = valueModel.getValue() != null ? valueModel.getValue() : 0;
+				System.setProperty(name, Integer.toString(value));
 
-			if (StringUtils.isNotBlank(valueModel.getStrValue())) {
-				System.setProperty(name, valueModel.getStrValue());
+				if (StringUtils.isNotBlank(valueModel.getStrValue())) {
+					System.setProperty(name, valueModel.getStrValue());
+				}
+				if (valueModel.getBoolValue() != null) {
+					System.setProperty(name, valueModel.getBoolValue().toString());
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
 	}
 
 	private void cacheConfigItems() {
-		List<ConfigurationModel> startupItems = transformer().transformTo(repoService().findCacheableItems());
-		for (ConfigurationModel configurationModel : startupItems) {
+		List<Configuration> startupItems = repository().findByAutoLoad(true);
+		for (Configuration configurationModel : startupItems) {
 			cacheConfigItem(configurationModel.getName(), configurationModel);
 		}
 	}
@@ -78,24 +172,29 @@ public class ConfigurationService extends AbstractServiceImpl<Integer, Configura
 	public int getIntPropertyFromCache(String name) {
 		int returnValue = 0;
 		try {
-			returnValue = Integer.parseInt(System.getProperty(Constants.PAGE_SIZE));
-		} catch (Exception e) {
-			ConfigurationModel fromDb = getByName(name);
+			Configuration fromDb = getByName(name);
 			if (fromDb != null) {
 				returnValue = fromDb.getValue().intValue();
 				fromDb.setAutoLoad(true);
-				save(fromDb);
+				save(fromDb, null);
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		return returnValue;
 	}
 
-	public void remove(ConfigurationModel item) {
+	public void remove(Configuration item) {
 		clearFromCache(item);
-		removeById(item.getId());
+		repository().delete(item);
 	}
 
-	private void clearFromCache(ConfigurationModel saved) {
+	private void clearFromCache(Configuration saved) {
 		System.clearProperty(saved.getName());
+	}
+
+	@Override
+	public ConfigurationRepository repository() {
+		return configurationRepository;
 	}
 }

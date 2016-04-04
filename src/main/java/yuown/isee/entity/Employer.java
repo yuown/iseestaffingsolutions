@@ -17,27 +17,21 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 @Entity
-@Table(name = "profile", uniqueConstraints = @UniqueConstraint(columnNames = { "id" }))
+@Table(name = "employers", uniqueConstraints = @UniqueConstraint(columnNames = { "id" }))
 @AttributeOverrides(value = { @AttributeOverride(name = "id", column = @Column(name = "ID", insertable = false, updatable = false)),
-		@AttributeOverride(name = "firstname", column = @Column(name = "firstname")),
-		@AttributeOverride(name = "lastname", column = @Column(name = "lastname")),
-		@AttributeOverride(name = "email", column = @Column(name = "email")),
-		@AttributeOverride(name = "mobile", column = @Column(name = "mobile")),
-		@AttributeOverride(name = "address", column = @Column(name = "address"))
+		@AttributeOverride(name = "name", column = @Column(name = "name")),
+		@AttributeOverride(name = "address", column = @Column(name = "address")),
+		@AttributeOverride(name = "description", column = @Column(name = "description"))
 })
-public class Profile extends BaseEntity<Integer> implements Serializable {
+public class Employer extends BaseEntity<Integer> implements Serializable {
 
 	private static final long serialVersionUID = 4289151143888117381L;
 
-	private String firstname;
-
-	private String lastname;
-
-	private String email;
-
-	private String mobile;
+	private String name;
 
 	private String address;
+
+	private String description;
 
 	@Override
 	@Id
@@ -49,6 +43,30 @@ public class Profile extends BaseEntity<Integer> implements Serializable {
 	@Override
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	@Override
@@ -69,47 +87,7 @@ public class Profile extends BaseEntity<Integer> implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Profile rhs = (Profile) obj;
+		Employer rhs = (Employer) obj;
 		return (new EqualsBuilder()).append(this.id, rhs.id).isEquals();
-	}
-
-	public String getFirstname() {
-		return firstname;
-	}
-
-	public String getLastname() {
-		return lastname;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public String getMobile() {
-		return mobile;
-	}
-
-	public String getAddress() {
-		return address;
-	}
-
-	public void setFirstname(String firstname) {
-		this.firstname = firstname;
-	}
-
-	public void setLastname(String lastname) {
-		this.lastname = lastname;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public void setMobile(String mobile) {
-		this.mobile = mobile;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
 	}
 }

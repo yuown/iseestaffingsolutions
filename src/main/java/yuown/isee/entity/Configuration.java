@@ -5,7 +5,6 @@ import java.io.Serializable;
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -15,7 +14,6 @@ import javax.persistence.UniqueConstraint;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
-@Entity
 @Table(name = "CONFIGURATION", uniqueConstraints = @UniqueConstraint(columnNames = { "id" }))
 @AttributeOverrides( value = 
 {
@@ -23,7 +21,9 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
     @AttributeOverride(name = "name", column = @Column(name = "name")),
     @AttributeOverride(name = "value", column = @Column(name = "value")),
     @AttributeOverride(name = "strValue", column = @Column(name = "str_value")),
-    @AttributeOverride(name = "autoLoad", column = @Column(name = "load_on_startup"))
+    @AttributeOverride(name = "boolValue", column = @Column(name = "bool_value")),
+    @AttributeOverride(name = "autoLoad", column = @Column(name = "load_on_startup")),
+    @AttributeOverride(name = "deletable", column = @Column(name = "deletable"))
 })
 public class Configuration extends BaseEntity<Integer> implements Serializable {
 
@@ -37,7 +37,11 @@ public class Configuration extends BaseEntity<Integer> implements Serializable {
     
     private String strValue;
     
+    private Boolean boolValue;
+    
     private Boolean autoLoad;
+    
+    private Boolean deletable;
     
     public String getName() {
         return name;
@@ -71,7 +75,15 @@ public class Configuration extends BaseEntity<Integer> implements Serializable {
 		this.strValue = strValue;
 	}
 
-	@Override
+	public Boolean getBoolValue() {
+        return boolValue;
+    }
+
+    public void setBoolValue(Boolean boolValue) {
+        this.boolValue = boolValue;
+    }
+
+    @Override
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     public Integer getId() {
@@ -91,7 +103,15 @@ public class Configuration extends BaseEntity<Integer> implements Serializable {
 		this.autoLoad = autoLoad;
 	}
 
-	@Override
+	public Boolean getDeletable() {
+        return deletable;
+    }
+
+    public void setDeletable(Boolean deletable) {
+        this.deletable = deletable;
+    }
+
+    @Override
     public int hashCode() {
         return (new HashCodeBuilder()).append(this.id).toHashCode();
     }

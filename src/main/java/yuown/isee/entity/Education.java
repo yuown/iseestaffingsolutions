@@ -25,8 +25,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 		@AttributeOverride(name = "endmonth", column = @Column(name = "endmonth")),
 		@AttributeOverride(name = "endyear", column = @Column(name = "endyear")),
 		@AttributeOverride(name = "inprogress", column = @Column(name = "inprogress")),
-		@AttributeOverride(name = "specialization", column = @Column(name = "specialization")),
-		@AttributeOverride(name = "profileId", column = @Column(name = "profile_id"))
+		@AttributeOverride(name = "specialization", column = @Column(name = "specialization"))
 })
 public class Education extends BaseEntity<Integer> implements Serializable {
 
@@ -45,8 +44,8 @@ public class Education extends BaseEntity<Integer> implements Serializable {
 	private boolean inProgress;
 
 	private String specialization;
-
-	private Integer profileId;
+	
+	private Employee employee;
 
 	@Override
 	@Id
@@ -58,14 +57,6 @@ public class Education extends BaseEntity<Integer> implements Serializable {
 	@Override
 	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	public Integer getProfileId() {
-		return profileId;
-	}
-
-	public void setProfileId(Integer profileId) {
-		this.profileId = profileId;
 	}
 
 	@Override
@@ -144,5 +135,13 @@ public class Education extends BaseEntity<Integer> implements Serializable {
 
 	public void setSpecialization(String specialization) {
 		this.specialization = specialization;
+	}
+
+	public Employee getEmployee() {
+		return employee;
+	}
+
+	public void setEmployee(Employee employee) {
+		this.employee = employee;
 	}
 }
