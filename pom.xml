@@ -185,45 +185,6 @@
                     <target>1.7</target>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>com.a5000.platform.opensource.generation-kit</groupId>
-                <artifactId>generator-mojos</artifactId>
-                <configuration>
-                    <sourceRoot>${project.build.sourceDirectory}</sourceRoot>
-                    <entityPattern>**/model/**/*.java</entityPattern>
-                    <basePackage>com.a5000.platform.api.model</basePackage>
-                    <dtoPackage>com.a5000.platform.api.model.domain</dtoPackage>
-                    <convertersPackage>com.a5000.platform.api.services</convertersPackage>
-                    <daoPackage>com.a5000.platform.dao</daoPackage>
-
-                    <dtoAnnotationClasses>
-                        <dtoAnnotationClass>com.gwtent.reflection.client.Reflectable</dtoAnnotationClass>
-                    </dtoAnnotationClasses>
-
-                    <dtoInterfaceClasses>
-                        <dtoInterfaceClass>java.io.Serializable</dtoInterfaceClass>
-                        <dtoInterfaceClass>com.a5000.platform.api.model.domain.api.Identifiable</dtoInterfaceClass>
-                    </dtoInterfaceClasses>
-
-                    <skipStaticFields>true</skipStaticFields>
-
-                    <attachPostfixes>true</attachPostfixes>
-                    <attachPrefixes>true</attachPrefixes>
-                    <attachSuffixes>false</attachSuffixes>
-
-                    <outputPath>${project.basedir}/src/main/generated</outputPath>
-                </configuration>
-                <executions>
-                    <execution>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>gen-dao</goal>
-                            <goal>gen-dto</goal>
-                            <goal>gen-jpa-converter</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
     </build>
 </project>
