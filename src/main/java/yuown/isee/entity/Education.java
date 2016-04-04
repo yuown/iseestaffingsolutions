@@ -41,7 +41,7 @@ public class Education extends BaseEntity<Integer> implements Serializable {
 
 	private int endYear;
 
-	private boolean inProgress;
+	private Boolean inProgress;
 
 	private String specialization;
 	
