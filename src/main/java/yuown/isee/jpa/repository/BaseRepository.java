@@ -20,9 +20,5 @@ public interface BaseRepository<E extends BaseEntity<ID>, ID extends Serializabl
 	
 	public Page<E> findAllByOrderByIdDesc(Pageable pageRequest);
 	
-	public Page<E> findAllByNameLikeOrderByIdDesc(String string, Pageable pageRequest);
-
-	public Page<E> findAllByNameLike(String string, Pageable pageRequest);
-
 	public List<E> findAllByEnabled(Boolean enabled);
 }

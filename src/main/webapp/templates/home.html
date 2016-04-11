@@ -12,14 +12,14 @@
                             <a href="#">{{globals.currentUser.fullName}}</a>
                         </li>
                         <li ng-class="{active: isSegment('changePwd')}"><a href="#/home/changeProfile">Change Profile</a></li>
-						<li><a id="btn-1" data-toggle="collapse" data-target="#secMenu1" aria-expanded="false" ng-class="{active: isSegment('users') || isSegment('groups')}" access="ROLE_USER_MANAGER">Security</a>
+						<li>
+						    <a id="btn-1" data-toggle="collapse" data-target="#secMenu1" aria-expanded="false" ng-class="{active: isSegment('users') || isSegment('groups')}" access="ROLE_USER_MANAGER">Security</a>
 							<ul class="nav collapse" id="secMenu1" role="menu" aria-labelledby="btn-1">
 								<li ng-class="{active: isSegment('users')}"><a href="#/home/users">Users</a></li>
 								<li ng-class="{active: isSegment('groups')}"><a href="#/home/groups">Groups</a></li>
 							</ul>
 					    </li>
-						<li><a href="#">Skills</a></li>
-						<li><a href="#">Jobs</a></li>
+						<li ng-class="{active: isSegment('jobs')}" access="ROLE_VIEW_JOBS"><a href="#/home/jobs">Available Jobs</a></li>
 						<li><a href="#" ng-click="logout()">Logout</a></li>
 					</ul>
 				</nav>

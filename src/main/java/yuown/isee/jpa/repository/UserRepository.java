@@ -8,8 +8,8 @@ import yuown.isee.entity.User;
 @Repository
 public interface UserRepository extends BaseRepository<User, Integer> {
 
-    public User findByUsername(String userName);
-    
-    @Query("select max(id) from User")
+	public User findByUsername(String userName);
+
+	@Query("select max(id) from User")
 	public Integer findMaxId();
 }

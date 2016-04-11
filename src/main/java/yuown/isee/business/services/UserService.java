@@ -11,8 +11,11 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.stereotype.Service;
 
+import yuown.isee.entity.Employee;
 import yuown.isee.entity.User;
+import yuown.isee.jpa.repository.UserRepository;
 import yuown.isee.model.UserModel;
+import yuown.isee.model.UserRegisterModel;
 import yuown.isee.security.YuownGrantedAuthority;
 import yuown.isee.transformer.UserTransformer;
 
@@ -29,7 +32,7 @@ public class UserService {
 	private List<String> ALL_ROLES;
 
 	@Autowired
-	private UserRepositoryService userRepositoryService;
+	private UserRepository userRepository;
 
 	@Autowired
 	private UserTransformer userTransformer;
@@ -37,8 +40,8 @@ public class UserService {
 	@Autowired
 	private JdbcUserDetailsManager jdbcUserDetailsManager;
 
-	protected UserRepositoryService repoService() {
-		return userRepositoryService;
+	protected UserRepository repoService() {
+		return userRepository;
 	}
 
 	protected UserTransformer transformer() {
@@ -48,7 +51,7 @@ public class UserService {
 	public UserModel getByUsername(String name) {
 		org.springframework.security.core.userdetails.User userFromDB = (org.springframework.security.core.userdetails.User) jdbcUserDetailsManager.loadUserByUsername(name);
 		UserModel user = transformer().transformFromSecurityUser(userFromDB);
-		User dbUser = userRepositoryService.findByUsername(name);
+		User dbUser = userRepository.findByUsername(name);
 		user.setId(dbUser.getId());
 		user.setFullName(dbUser.getFullName());
 		if (SUPER_USERS.contains(name)) {
@@ -58,12 +61,27 @@ public class UserService {
 	}
 
 	public UserModel findByUsername(String username) {
-		return transformer().transformTo(userRepositoryService.findByUsername(username));
+		return transformer().transformTo(userRepository.findByUsername(username));
 	}
 
 	public void createUser(UserModel fromClient) throws Exception {
-		fromClient.setId(userRepositoryService.findMaxId() + 1);
-		userRepositoryService.save(transformer().transformFrom(fromClient));
+		fromClient.setId(userRepository.findMaxId() + 1);
+		userRepository.save(transformer().transformFrom(fromClient));
+	}
+
+	public void registerUser(UserRegisterModel fromClient) throws Exception {
+		User u = new User();
+		u.setFullName(fromClient.getFirstName() + fromClient.getLastName());
+		u.setUsername(fromClient.getUsername());
+		u.setPassword(fromClient.getPassword());
+		Employee emp = new Employee();
+		emp.setAddress(fromClient.getAddress());
+		emp.setEnabled(true);
+		emp.setFirstName(fromClient.getFirstName());
+		emp.setLastName(fromClient.getLastName());
+		emp.setMobile(fromClient.getMobile());
+		u.setEmployee(emp);
+		u = userRepository.save(u);
 	}
 
 	public void removeUser(UserModel fromClient) {
@@ -89,7 +107,7 @@ public class UserService {
 			UserModel fromDB = findByUsername(user.getUsername());
 			if (null != fromDB && user.isEnabled() != fromDB.isEnabled()) {
 				fromDB.setEnabled(user.isEnabled());
-				userRepositoryService.save(transformer().transformFrom(fromDB));
+				userRepository.save(transformer().transformFrom(fromDB));
 			}
 		}
 	}
@@ -161,7 +179,7 @@ public class UserService {
 	}
 
 	public void updateUser(UserModel model) {
-		userRepositoryService.save(transformer().transformFrom(model));
+		userRepository.save(transformer().transformFrom(model));
 	}
 
 	public void updateUser(UserModel model, UserModel fromHeader) {
@@ -177,5 +195,11 @@ public class UserService {
 			model.setPassword(fromHeader.getPassword());
 		}
 		updateUser(model);
+	}
+
+	public UserModel getById(int id) {
+		User u = repoService().findById(id);
+		UserModel uModel = transformer().transformTo(u);
+		return uModel;
 	}
 }

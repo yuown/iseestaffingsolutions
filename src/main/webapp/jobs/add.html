@@ -1,0 +1,26 @@
+<div ng-controller="AddJobController">
+    <div class="modal-header modal-header-primary">
+        <h4 class="modal-title">{{title}}</h4>
+    </div>
+    <div class="modal-body">
+        <div class="alert alert-danger" ng-show="errorMessage">{{errorMessage}}</div>
+        <form ng-submit="save(item)" id="addForm">
+	        <div class="form-group">
+                <div class="input-group">
+                    <span class="input-group-addon">Job Title</span>
+                    <input class="form-control" type="text" placeholder="Enter Job Title" value="{{item.title}}" ng-model="item.title" required="required" maxlength="45" />
+                </div>
+            </div>
+            <div class="form-group">
+	            <div class="input-group">
+	                <span class="input-group-addon">Description</span>
+	                <textarea rows="10" ng-model="item.description" placeholder="Enter Job Description"></textarea>
+	            </div>
+	        </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" ng-click="addDialog.dismiss('cancel')">Close</button>
+        <button type="submit" class="btn btn-primary" form="addForm" access="ROLE_MANAGE_JOB">Save</button>
+    </div>
+</div>

@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,7 +40,7 @@ public abstract class AbstractServiceImpl<ID extends Serializable, E extends Bas
 		return repository().findOne(id);
 	}
 
-	public Page<E> search(String name, Integer page, Integer size) {
+	public Page<E> search(Integer page, Integer size) {
 		if (page == null || page < 0) {
 			page = 0;
 		}
@@ -54,11 +53,6 @@ public abstract class AbstractServiceImpl<ID extends Serializable, E extends Bas
 		if (size == null || (size < 0 || size > fromSystem)) {
 			size = fromSystem;
 		}
-		PageRequest pageRequest = new PageRequest(page, size);
-		if (StringUtils.isNotBlank(name)) {
-			return repository().findAllByNameLike(name.toUpperCase(), pageRequest);
-		} else {
-			return repository().findAll(pageRequest);
-		}
+		return repository().findAll(new PageRequest(page, size));
 	}
 }

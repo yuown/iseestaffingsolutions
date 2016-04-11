@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -14,9 +15,9 @@ import javax.persistence.UniqueConstraint;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
+@Entity
 @Table(name = "CONFIGURATION", uniqueConstraints = @UniqueConstraint(columnNames = { "id" }))
-@AttributeOverrides( value = 
-{
+@AttributeOverrides( value = {
     @AttributeOverride(name = "id", column = @Column(name = "ID", insertable = false, updatable = false)),
     @AttributeOverride(name = "name", column = @Column(name = "name")),
     @AttributeOverride(name = "value", column = @Column(name = "value")),

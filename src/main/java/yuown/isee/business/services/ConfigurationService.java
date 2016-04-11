@@ -25,45 +25,6 @@ public class ConfigurationService extends AbstractServiceImpl<Integer, Configura
 	@Value("${page.size}")
 	private Integer pageSize;
 
-	@Value("${mail.secured}")
-	private Boolean isSecured;
-
-	@Value("${mail.smtp.host}")
-	private String mailHost;
-
-	@Value("${mail.auth.required}")
-	private Boolean mailAuthRequired;
-
-	@Value("${mail.user.name}")
-	private String mailUsername;
-
-	@Value("${mail.user.pass}")
-	private String mailPassword;
-
-	@Value("${mail.message.from.default}")
-	private String messageFromDefault;
-
-	@Value("${mail.smtp.starttls.enable}")
-	private Boolean enableTls;
-
-	@Value("${mail.smtp.port}")
-	private Integer smtpPort;
-
-	@Value("${mail.reply.to}")
-	private String mailReplyTo;
-
-	@Value("${mail.debug}")
-	private Boolean enableDebug;
-
-	@Value("${proxy.enabled}")
-	private Boolean isProxyEnabled;
-
-	@Value("${proxy.host}")
-	private String proxyHost;
-
-	@Value("${proxy.port}")
-	private String proxyPort;
-
 	public Configuration getByName(String name) {
 		return repository().findByName(name);
 	}
@@ -71,19 +32,6 @@ public class ConfigurationService extends AbstractServiceImpl<Integer, Configura
 	@PostConstruct
 	public void init() {
 		addConfigItemIfNotFound("page.size");
-		// addConfigItemIfNotFound("mail.secured");
-		// addConfigItemIfNotFound("mail.smtp.host");
-		// addConfigItemIfNotFound("mail.auth.required");
-		// addConfigItemIfNotFound("mail.user.name");
-		// addConfigItemIfNotFound("mail.user.pass");
-		// addConfigItemIfNotFound("mail.message.from.default");
-		// addConfigItemIfNotFound("mail.smtp.starttls.enable");
-		// addConfigItemIfNotFound("mail.smtp.port");
-		// addConfigItemIfNotFound("mail.reply.to");
-		// addConfigItemIfNotFound("mail.debug");
-		// addConfigItemIfNotFound("proxy.enabled");
-		// addConfigItemIfNotFound("proxy.host");
-		// addConfigItemIfNotFound("proxy.port");
 
 		cacheConfigItems();
 	}
@@ -97,32 +45,6 @@ public class ConfigurationService extends AbstractServiceImpl<Integer, Configura
 			item.setAutoLoad(true);
 			if (configName.equals("page.size")) {
 				item.setValue(pageSize);
-			} else if (configName.equals("mail.smtp.host")) {
-				item.setStrValue(mailHost);
-			} else if (configName.equals("mail.auth.required")) {
-				item.setBoolValue(mailAuthRequired);
-			} else if (configName.equals("mail.user.name")) {
-				item.setStrValue(mailUsername);
-			} else if (configName.equals("mail.user.pass")) {
-				item.setStrValue(mailPassword);
-			} else if (configName.equals("mail.message.from.default")) {
-				item.setStrValue(messageFromDefault);
-			} else if (configName.equals("mail.smtp.starttls.enable")) {
-				item.setBoolValue(enableTls);
-			} else if (configName.equals("mail.smtp.port")) {
-				item.setValue(smtpPort);
-			} else if (configName.equals("mail.reply.to")) {
-				item.setStrValue(mailReplyTo);
-			} else if (configName.equals("mail.secured")) {
-				item.setBoolValue(isSecured);
-			} else if (configName.equals("mail.debug")) {
-				item.setBoolValue(enableDebug);
-			} else if (configName.equals("proxy.enabled")) {
-				item.setBoolValue(isProxyEnabled);
-			} else if (configName.equals("proxy.host")) {
-				item.setStrValue(proxyHost);
-			} else if (configName.equals("proxy.port")) {
-				item.setStrValue(proxyPort);
 			}
 			repository().save(item);
 		}

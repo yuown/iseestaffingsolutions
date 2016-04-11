@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import yuown.isee.business.services.UserService;
 import yuown.isee.model.UserModel;
+import yuown.isee.model.UserRegisterModel;
 import yuown.isee.security.YuownTokenAuthenticationService;
 
 @RestController
@@ -127,6 +128,24 @@ public class UserResourceImpl {
 			} catch (Exception e) {
 				HttpHeaders headers = new HttpHeaders();
 				headers.add("errorMessage", "User with ID " + user.getId() + " cannot be Updated");
+				return new ResponseEntity<String>(headers, HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+		}
+	}
+
+	@RequestMapping(method = RequestMethod.POST, consumes = { MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.TEXT_PLAIN_VALUE }, value = "/register")
+	@ResponseBody
+	public ResponseEntity<String> register(@RequestBody UserRegisterModel model) {
+		UserModel user = userService.findByUsername(model.getUsername());
+		HttpHeaders headers = new HttpHeaders();
+		if (null != user) {
+			return new ResponseEntity<String>("User with username " + model.getUsername() + " Already Exist", HttpStatus.OK);
+		} else {
+			try {
+				userService.registerUser(model);
+				return new ResponseEntity<String>("User with username " + model.getUsername() + " Created Successfully", HttpStatus.OK);
+			} catch (Exception e) {
+				headers.add("errorMessage", "User with username " + model.getUsername() + " cannot be Created");
 				return new ResponseEntity<String>(headers, HttpStatus.INTERNAL_SERVER_ERROR);
 			}
 		}

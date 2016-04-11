@@ -21,15 +21,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import yuown.isee.business.services.AbstractServiceImpl;
 import yuown.isee.entity.BaseEntity;
 import yuown.isee.jpa.repository.BaseRepository;
-import yuown.isee.jpa.services.AbstractRepositoryService;
-import yuown.isee.model.Model;
-import yuown.isee.transformer.DTOTransformer;
 
-public abstract class AbstractResourceImpl<ID extends Serializable, E extends BaseEntity<ID>, RS extends AbstractRepositoryService<? extends BaseRepository<E, ID>, E, ID>, DTO extends Model, TR extends DTOTransformer<DTO, E>, S extends AbstractServiceImpl<ID, DTO, E, RS, TR>> {
+public abstract class AbstractResourceImpl<ID extends Serializable, E extends BaseEntity<ID>, R extends BaseRepository<E, ID>, S extends AbstractServiceImpl<ID, E, R>> {
 
 	public abstract S getService();
-	
-	public abstract TR transformer();
 
 	@RequestMapping(method = RequestMethod.POST, consumes = { MediaType.APPLICATION_JSON_VALUE })
 	@ResponseBody
@@ -37,7 +32,7 @@ public abstract class AbstractResourceImpl<ID extends Serializable, E extends Ba
 		HttpHeaders headers = new HttpHeaders();
 		HttpStatus responseStatus = null;
 		try {
-			entity = getService().save(transformer().transformFrom(entity));
+			entity = getService().save(entity, customParams);
 			responseStatus = HttpStatus.OK;
 		} catch (Exception e) {
 			responseStatus = HttpStatus.BAD_REQUEST;
@@ -72,16 +67,17 @@ public abstract class AbstractResourceImpl<ID extends Serializable, E extends Ba
 
 	@RequestMapping(method = RequestMethod.GET)
 	@ResponseBody
-	public ResponseEntity<List<E>> getAll(@RequestParam(value = "name", required = false) String name, @RequestParam(value = "page", required = false) Integer page,
-			@RequestParam(value = "size", required = false) Integer size, @RequestParam(value = "paged", required = false) Boolean paged,
-			@RequestParam(value = "enabled", required = false) Boolean enabled) {
+	public ResponseEntity<List<E>> getAll(@RequestParam(value = "page", required = false) Integer page,
+										  @RequestParam(value = "size", required = false) Integer size,
+										  @RequestParam(value = "paged", required = false) Boolean paged,
+										  @RequestParam(value = "enabled", required = false) Boolean enabled) {
 		HttpHeaders headers = new HttpHeaders();
 		Page<E> pagedItems = null;
 
 		List<E> items = null;
 
 		if (paged != null && paged == true) {
-			pagedItems = getService().search(name, page, size);
+			pagedItems = getService().search(page, size);
 			items = pagedItems.getContent();
 
 			headers.add("pages", pagedItems.getTotalPages() + StringUtils.EMPTY);

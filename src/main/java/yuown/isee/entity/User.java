@@ -7,6 +7,7 @@ import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -20,7 +21,6 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 		@AttributeOverride(name = "id", column = @Column(name = "ID", insertable = false, updatable = false)),
 		@AttributeOverride(name = "username", column = @Column(name = "username")),
 		@AttributeOverride(name = "password", column = @Column(name = "PASSWORD")),
-		@AttributeOverride(name = "enabled", column = @Column(name = "ENABLED")),
 		@AttributeOverride(name = "fullName", column = @Column(name = "FULL_NAME"))
 	})
 public class User extends BaseEntity<Integer> implements Serializable {
@@ -31,9 +31,11 @@ public class User extends BaseEntity<Integer> implements Serializable {
 
 	private String password;
 
-	private boolean enabled;
-
 	private String fullName;
+	
+	private Employee employee;
+	
+	private Employer employer;
 	
 	public String getUsername() {
 		return username;
@@ -41,10 +43,6 @@ public class User extends BaseEntity<Integer> implements Serializable {
 
 	public String getPassword() {
 		return password;
-	}
-
-	public boolean isEnabled() {
-		return enabled;
 	}
 
 	public String getFullName() {
@@ -57,10 +55,6 @@ public class User extends BaseEntity<Integer> implements Serializable {
 
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-	public void setEnabled(boolean enabled) {
-		this.enabled = enabled;
 	}
 
 	public void setFullName(String fullName) {
@@ -76,6 +70,24 @@ public class User extends BaseEntity<Integer> implements Serializable {
 	@Override
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	@OneToOne(optional = true)
+	public Employee getEmployee() {
+		return employee;
+	}
+
+	@OneToOne(optional = true)
+	public Employer getEmployer() {
+		return employer;
+	}
+
+	public void setEmployee(Employee employee) {
+		this.employee = employee;
+	}
+
+	public void setEmployer(Employer employer) {
+		this.employer = employer;
 	}
 
 	@Override

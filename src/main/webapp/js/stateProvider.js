@@ -8,7 +8,9 @@ iseeApp.run(['$rootScope', '$location', '$cookieStore', '$http', function($rootS
 	$rootScope.$on('$locationChangeStart', function(event, next, current) {
 		// redirect to login page if not logged in
 		if ($location.path() !== '/login' && !$rootScope.globals.currentUser) {
-			$location.path('/login');
+		    if($location.path() !== '/register') {
+		        $location.path('/login');
+		    }
 		}
 		if ($location.path() == '/login' && $rootScope.globals.currentUser) {
             $location.path('/home');

@@ -13,8 +13,13 @@ iseeApp.config(function($routeSegmentProvider, $routeProvider) {
         when('/home/users', 'home.users').
         when('/home/changeProfile', 'home.changeProfile').
         when('/home/groups', 'home.groups').
+        when('/home/jobs', 'home.jobs').
+        when('/register', 'register').
         segment('login', {
             templateUrl : 'templates/login.html',
+        }).
+        segment('register', {
+            templateUrl : 'users/register.html'
         }).
         segment('home', {
             templateUrl : 'templates/home.html',
@@ -31,6 +36,9 @@ iseeApp.config(function($routeSegmentProvider, $routeProvider) {
             }).
             segment('groups', {
                 templateUrl : 'users/groupsList.html'
+            }).
+            segment('jobs', {
+                templateUrl : 'jobs/list.html'
             });
 
     $routeProvider.otherwise({redirectTo: '/login'}); 

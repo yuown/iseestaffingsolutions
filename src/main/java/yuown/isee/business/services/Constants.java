@@ -1,4 +1,4 @@
-package yuown.isee.rest.impl;
+package yuown.isee.business.services;
 
 public interface Constants {
 

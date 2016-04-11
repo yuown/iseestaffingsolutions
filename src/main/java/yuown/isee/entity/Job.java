@@ -19,9 +19,9 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 @Entity
 @Table(name = "jobs", uniqueConstraints = @UniqueConstraint(columnNames = { "id" }))
 @AttributeOverrides(value = {
-		@AttributeOverride(name = "id", column = @Column(name = "ID", insertable = false, updatable = false)),
-		@AttributeOverride(name = "title", column = @Column(name = "title")),
-		@AttributeOverride(name = "description", column = @Column(name = "description"))
+	@AttributeOverride(name = "id", column = @Column(name = "ID", insertable = false, updatable = false)),
+	@AttributeOverride(name = "title", column = @Column(name = "title")),
+	@AttributeOverride(name = "description", column = @Column(name = "description"))
 })
 public class Job extends BaseEntity<Integer> implements Serializable {
 
@@ -30,8 +30,6 @@ public class Job extends BaseEntity<Integer> implements Serializable {
 	private String title;
 
 	private String description;
-
-	private Employer postedBy;
 
 	@Override
 	@Id
@@ -53,20 +51,12 @@ public class Job extends BaseEntity<Integer> implements Serializable {
 		return description;
 	}
 
-	public Employer getPostedBy() {
-		return postedBy;
-	}
-
 	public void setTitle(String title) {
 		this.title = title;
 	}
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	public void setPostedBy(Employer postedBy) {
-		this.postedBy = postedBy;
 	}
 
 	@Override

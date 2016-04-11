@@ -52,7 +52,7 @@ public class YuownTokenAuthenticationService {
 
 	public Authentication getAuthentication(HttpServletRequest request) {
 		final String token = request.getHeader(AUTH_HEADER_NAME);
-		if (token != null) {
+		if (StringUtils.isNotBlank(token)) {
 			final UserModel user = yuownTokenHandler.parseUserFromToken(token);
 			if (user != null) {
 				User authenticateuser = new User(user.getUsername(), user.getPassword(), user.getAuthorities());

@@ -1,0 +1,27 @@
+<div ng-controller='JobsController' ng-init="load()" access="ROLE_VIEW_JOBS,ROLE_MANAGE_JOB,ROLE_APPLY_JOB">
+    <div class="alert alert-danger" ng-show="errorMessage">{{errorMessage}}</div>
+    <div>
+        <button type="button" class="btn btn-primary" ng-click="add()" access="ROLE_MANAGE_JOB">Add</button>
+        <button type="button" class="btn btn-info" ng-click="load()">Refresh</button>
+    </div>
+	<div class="table-responsive">
+		<table class="table table-hover">
+			<thead>
+				<tr class="info table-row">
+					<th>Job Title</th>
+					<th access="ROLE_MANAGE_JOB,ROLE_APPLY_JOB">Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="item in items" class="table-row">
+					<td>{{item.title}}</td>
+					<td access="ROLE_MANAGE_JOB,ROLE_APPLY_JOB">
+						<button type='button' class='btn btn-success' ng-click="add(item)" access="ROLE_MANAGE_JOB">Edit</button>
+						<button type='button' class='btn btn-danger' ng-click="deleteRecord(item)" access="ROLE_MANAGE_JOB">Delete</button>
+						<button type='button' class='btn btn-warning' ng-click="apply(item)" access="ROLE_APPLY_JOB">Apply</button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>

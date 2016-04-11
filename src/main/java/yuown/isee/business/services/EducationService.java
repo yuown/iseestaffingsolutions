@@ -24,10 +24,6 @@ public class EducationService extends AbstractServiceImpl<Integer, Education, Ed
 		return educationRepository;
 	}
 
-	public List<Education> getEducations(Integer profileId) {
-		return repository().findAllByProfileId(profileId);
-	}
-
 	public void saveEducations(int profileId, List<Education> educations) {
 		Employee employee = employeeRepository.findById(profileId);
 		if (null != employee) {
