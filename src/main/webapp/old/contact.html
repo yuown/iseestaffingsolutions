@@ -1,0 +1,182 @@
+<!DOCTYPE HTML>
+<!--
+	Solarize by TEMPLATED
+	templated.co @templatedco
+	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
+-->
+<html>
+	<head>
+		<title>ISEE Staffing Solutions Pvt. Ltd., - Manpower Consulting | Talent Sourcing | Permanent and Temporary Staffing | Bangalore | India</title>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<!--[if lte IE 8]><script src="css/ie/html5shiv.js"></script><![endif]-->
+		<script src="js/jquery.min.js"></script>
+		<script src="js/jquery.dropotron.min.js"></script>
+		<script src="js/skel.min.js"></script>
+		<script src="js/skel-layers.min.js"></script>
+		<script src="js/init.js"></script>
+		<noscript>
+			<link rel="stylesheet" href="css/skel.css" />
+			<link rel="stylesheet" href="css/style.css" />
+		</noscript>
+		<!--[if lte IE 8]><link rel="stylesheet" href="css/ie/v8.css" /><![endif]-->
+		<script type="text/javascript">
+		// <![CDATA[
+		jQuery(document).ready(function(){
+		    $('#contactform').submit(function(){                  
+		        var action = $(this).attr('action');
+		        $.post(action, { 
+		            name: $('#name').val(),
+		            email: $('#email').val(),
+		            company: $('#company').val(),
+		            subject: $('#subject').val(),
+		            message: $('#message').val()
+		        },
+		            function(data){
+		                $('#contactform #submit').attr('disabled','');
+		                $('.response').remove();
+		                $('#contactform').before('<p class="response">'+data+'</p>');
+		                $('.response').slideDown();
+		                if(data=='Message sent!') $('#contactform').slideUp();
+		            }
+		        ); 
+		        return false;
+		    });
+		});
+		// ]]>
+		</script>
+	</head>
+	<body>
+
+		<!-- Header Wrapper -->
+			<div class="wrapper style1">
+			
+				<!-- Header -->
+					<div id="header">
+						<div class="container">
+								
+							<!-- Logo -->
+								<h1><a href="#" id="logo"><img src="images/logo.jpg" alt="ISEE Staffing Solutions" /></a></h1>
+							
+							<!-- Nav -->
+				<nav id="nav">
+					<ul>
+						<li><a href="index.html">Home</a></li>
+						<li><a href="about.html">About</a></li>
+						<li><a href="services.html">Services</a></li>
+						<li><a href="clients.html">Clients</a></li>
+                        <li><a href="resume-upload.html">Resume Uploader</a></li>
+						<li><a href="#">Login</a>
+							<ul>
+								<li><a href="#">Job Seeker</a></li>
+								<li><a href="#">Employer</a></li>
+								<li><a href="#">Admin</a></li>
+							</ul></li>
+						<li class="active"><a href="contact.html">Contact Us</a></li>
+						<li><a href="https://login.secureserver.net/" target="_blank">Webmail Login</a></li>
+					</ul>
+				</nav>
+			</div>
+					</div>
+			</div>
+		<!-- Main -->
+			<div id="main" class="wrapper style4">
+				<div class="container">
+					<div class="row">
+
+						<!-- Sidebar -->
+						<div id="sidebar" class="3u">
+							<section>
+								<header class="major">
+									<h2>Corporate Office</h2>
+								</header>
+								<p>
+								    <strong>ISEE Staffing Solutions Pvt Ltd.</strong>
+								    #466, N.R Reddy Building,Ist floor,
+									Opp: Axis Bank, Konappana 
+									Agrahara, Electronic City, Hosur Main 
+									Road, Bangalore - 560 100.
+									Telephone: 080 - 28520943 / 28528128<br/>
+									E-mail: <a href="mailto:info@iseestaffingsolutions.com"><i class="mail1"></i>info@iseestaffingsolutions.com </a><br/>
+									Web: http://www.iseestaffingsolutions.com<br/>
+									<strong>Branch Offices:</strong>
+									<strong>Bangalore:</strong>
+                                    No.70, 3rd Cross, 
+									Opp. Mariyamma Temple, Aswath Nagar, Marathahalli, Bangalore - 37.
+									Telephone: 080 - 28520943 / 28528128<br/>
+                                    <strong>Andhra Pradesh:</strong>
+                                    #17-147, 1st Floor, RTC Colony, KN Road, Near Himaja High School, Puttur Mandal, Chittor Dist, Andra Pradesh - 517 583<br/>
+                                    <strong>Chennai:</strong>
+                                    LL1, Lloyds Colony, Mutthaiah Street, Royapeatta, Chennai - 600 014<br/>
+                                    <strong>Hyderabad:</strong>
+                                    #2-1/1, 3rd Floor, No. 301, SS Plaza, Near Devi Homes, Old Hafeezpet, Miyapur, Hyderabad - 500 049<br/>
+                                    <strong>New Delhi:</strong>
+                                    #101, 1st Floor, Pradhan Market, Veer Bazar Wali Gali, Kapashera, New Delhi - 110 037. Mobile: 8882205051 / 8882205056
+								</p>
+							</section>
+						</div>
+
+						<!-- Content -->
+						<div id="content" class="9u skel-cell-important">
+							<section>
+								<header class="major main-title">
+									<h2>Enquiry Form</h2>
+								</header>
+								<form action="contact-us.php" method="post" id="contactform">
+								    <div class="form-group">
+									    <label for="name">Name </label>
+									    <input name="name" type="text" id="name" size="25" class="form-control"/>
+								    </div>
+                                    <div class="form-group">
+                                        <label for="email">Email </label>
+                                        <input type="email" class="form-control" id="email" placeholder="Email">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="company">Company</label>
+                                        <input type="text" class="form-control" id="company" placeholder="Company">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="subject">Subject</label>
+                                        <input type="text" class="form-control" id="subject" placeholder="Subject">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="message">Message <span class="red">*</span></label>
+                                        <textarea id="message" name="message" rows="6" cols="50" class="form-control"></textarea>
+                                    </div>
+                                    <button type="submit" class="button btn btn-default">Submit</button>
+						        </form>
+							</section>
+						</div>
+					</div>
+				</div>
+			</div>
+		
+	<!-- Footer -->
+		<div id="footer">
+			<section class="container">
+				<header class="major">
+					<h2>Connect with us</h2>
+					<ul class="number1">
+						<li><span><i class="roc1"> </i>Electronic City, Hosur Main Road, Bangalore - 560 100</span></li>
+						<li><span><i class="phone1"> </i>080 - 28520943 / 28528128</span></li>
+						<li><a href="mailto:info@iseestaffingsolutions.com"><i class="mail1"></i>info@iseestaffingsolutions.com </a></li>
+					</ul>
+				</header>
+				<ul class="icons">
+					<li class="active"><a href="#" class="fa fa-facebook"><span>Facebook</span></a></li>
+					<li><a href="#" class="fa fa-twitter"><span>Twitter</span></a></li>
+					<li><a href="#" class="fa fa-dribbble"><span>Pinterest</span></a></li>
+					<li><a href="#" class="fa fa-google-plus"><span>Google+</span></a></li>
+				</ul>
+				<hr />
+			</section>
+			
+			<!-- Copyright -->
+				<div id="copyright">
+					Design: <a href="http://templated.co">TEMPLATED</a> Images: <a href="http://unsplash.com">Unsplash</a> (<a href="http://unsplash.com/cc0">CC0</a>)
+				</div>			
+		</div>
+
+	</body>
+</html>
